@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KSICFILM — Produção Audiovisual & Conteúdo Digital</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#070707;--s1:#0C0C0C;--s2:#111;--card:#151515;--card2:#1B1B1B;
+  --gold:#C9A84C;--gl:#DEB965;--gd:#8E6E28;
+  --w:#FFF;--g1:#888;--g2:#C0C0C0;
+  --b1:rgba(201,168,76,.1);--b2:rgba(201,168,76,.3);
+  --ease:cubic-bezier(.4,0,.2,1)
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--w);font-family:'Inter',sans-serif;line-height:1.65;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Playfair Display',serif;line-height:1.1}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+
+/* UTIL */
+.wrap{max-width:1160px;margin:0 auto;padding:0 28px}
+.tag{font-size:10.5px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold)}
+.htitle{font-size:clamp(2rem,4vw,3rem);font-weight:700;margin-bottom:14px}
+.hsub{font-size:1rem;color:var(--g2);line-height:1.85;max-width:560px}
+.gl{width:48px;height:1.5px;background:linear-gradient(90deg,var(--gold),transparent);margin:16px 0}
+.ctr{text-align:center}.ctr .gl,.ctr .hsub{margin:16px auto 0}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 32px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;letter-spacing:.8px;cursor:pointer;border:none;transition:all .3s var(--ease)}
+.btn-g{background:linear-gradient(135deg,var(--gold),var(--gd));color:#000}
+.btn-g:hover{background:linear-gradient(135deg,var(--gl),var(--gold));transform:translateY(-2px);box-shadow:0 12px 30px rgba(201,168,76,.2)}
+.btn-o{background:transparent;color:var(--w);border:1px solid rgba(255,255,255,.2)}
+.btn-o:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
+.btn-full{width:100%;justify-content:center}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(34px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.rv.in{opacity:1;transform:none}
+.rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}.rv.d4{transition-delay:.4s}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:22px 0;transition:all .4s}
+nav.sc{background:rgba(7,7,7,.97);backdrop-filter:blur(24px);padding:14px 0;border-bottom:1px solid var(--b1)}
+.ni{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.nlogo{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;letter-spacing:3.5px}
+.nlogo b{color:var(--gold)}
+.nlinks{display:flex;gap:34px}
+.nlinks a{font-size:12px;font-weight:500;letter-spacing:1.2px;text-transform:uppercase;color:var(--g2);transition:color .3s}
+.nlinks a:hover{color:var(--gold)}
+.hbg{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+.hbg span{width:22px;height:1.5px;background:var(--w);display:block;transition:all .3s}
+.mob{display:none;position:fixed;inset:0;background:var(--bg);z-index:950;flex-direction:column;align-items:center;justify-content:center;gap:32px}
+.mob.on{display:flex}
+.mob a{font-family:'Playfair Display',serif;font-size:24px;color:var(--w);transition:color .3s}
+.mob a:hover{color:var(--gold)}
+.mob-x{position:absolute;top:24px;right:26px;background:none;border:none;color:var(--w);font-size:26px;cursor:pointer}
+
+/* HERO */
+#hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden}
+.hbg-el{position:absolute;inset:0;pointer-events:none}
+.hbg-el::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 80% at 65% 50%,rgba(201,168,76,.045) 0%,transparent 65%)}
+.hbg-el::after{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='f'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23f)' opacity='.04'/%3E%3C/svg%3E");opacity:.2}
+.hbg-word{position:absolute;right:-40px;top:50%;transform:translateY(-50%);font-family:'Playfair Display',serif;font-size:clamp(130px,18vw,210px);font-weight:700;color:rgba(255,255,255,.016);letter-spacing:-6px;user-select:none;line-height:1;pointer-events:none}
+.hring{position:absolute;right:-30px;top:50%;transform:translateY(-50%);width:500px;height:500px;border-radius:50%;border:1px solid rgba(201,168,76,.055);animation:hspin 42s linear infinite;pointer-events:none}
+.hring::before{content:'';position:absolute;inset:60px;border-radius:50%;border:1px solid rgba(201,168,76,.035)}
+@keyframes hspin{to{transform:translateY(-50%) rotate(360deg)}}
+.hdot{position:absolute;width:3px;height:3px;border-radius:50%;background:var(--gold);animation:hdotblink 4s ease infinite}
+.hdot.d1{top:18%;left:38%;animation-delay:0s}
+.hdot.d2{top:70%;left:75%;animation-delay:2s;opacity:.4}
+.hdot.d3{top:40%;left:90%;animation-delay:3.5s;width:2px;height:2px}
+@keyframes hdotblink{0%,100%{opacity:.15}50%{opacity:.9}}
+.hero-c{position:relative;z-index:2;padding-top:90px}
+.hero-pills{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px;animation:fup .7s ease both}
+.pill{font-size:10.5px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);border:1px solid var(--b2);padding:6px 14px}
+.h1{font-size:clamp(2.8rem,6vw,5rem);font-weight:700;line-height:1.07;margin-bottom:24px;animation:fup .7s .14s ease both}
+.h1 i{font-style:italic;color:var(--gold)}
+.h-sub{font-size:clamp(.95rem,1.6vw,1.1rem);color:var(--g2);max-width:520px;line-height:1.8;margin-bottom:42px;animation:fup .7s .28s ease both}
+.hbtns{display:flex;gap:14px;flex-wrap:wrap;animation:fup .7s .42s ease both}
+.scroll-hint{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;animation:fup 1s .7s ease both}
+.scroll-hint span{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--g1)}
+.scroll-bar{width:1px;height:42px;background:linear-gradient(var(--gold),transparent);animation:sb 2.2s ease infinite}
+@keyframes sb{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+@keyframes fup{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+
+/* SECTION */
+section{padding:110px 0}
+.sec-hd{margin-bottom:64px}
+.tline{position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+
+/* SOBRE */
+#sobre{background:var(--s1);position:relative}
+.ab-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.ab-art{position:relative;aspect-ratio:4/5;background:var(--card);border:1px solid var(--b1);display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
+.ab-corner{position:absolute;width:20px;height:20px;border-color:var(--gold);border-style:solid}
+.ab-corner.tl{top:8px;left:8px;border-width:2px 0 0 2px}
+.ab-corner.tr{top:8px;right:8px;border-width:2px 2px 0 0}
+.ab-corner.bl{bottom:8px;left:8px;border-width:0 0 2px 2px}
+.ab-corner.br{bottom:8px;right:8px;border-width:0 2px 2px 0}
+.ab-rings{position:absolute;top:50%;left:50%;transform:translate(-50%,-60%)}
+.ab-ring{position:absolute;border-radius:50%;border:1px solid rgba(201,168,76,.12);transform:translate(-50%,-50%)}
+.ab-ring.r1{width:220px;height:220px}
+.ab-ring.r2{width:150px;height:150px}
+.ab-ring.r3{width:80px;height:80px}
+.ab-ring-dot{position:absolute;width:16px;height:16px;border-radius:50%;background:rgba(201,168,76,.25);transform:translate(-50%,-50%);box-shadow:0 0 20px rgba(201,168,76,.15)}
+.ab-art-label{position:absolute;bottom:36px;left:0;right:0;text-align:center}
+.ab-art-label span{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:rgba(201,168,76,.5)}
+.ab-art-year{position:absolute;top:32px;right:28px;font-size:11px;color:var(--b2);letter-spacing:2px}
+.ab-p{color:var(--g2);margin-bottom:16px;line-height:1.85;font-size:.975rem}
+.ab-quote{border-left:2px solid var(--gold);padding-left:20px;margin:28px 0;font-family:'Playfair Display',serif;font-style:italic;font-size:1.1rem;color:var(--g2);line-height:1.6}
+.sk-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:24px 0}
+.sk{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--g2)}
+.sk::before{content:'';width:3px;height:3px;border-radius:50%;background:var(--gold);flex-shrink:0}
+
+/* DIFERENCIAIS */
+#diferenciais{background:var(--bg)}
+.dif-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--b1);border:1px solid var(--b1)}
+.dif-item{background:var(--card);padding:36px 26px;transition:background .35s}
+.dif-item:hover{background:var(--card2)}
+.dif-n{font-size:10px;font-weight:700;letter-spacing:2.5px;color:var(--gold);margin-bottom:18px}
+.dif-ico{font-size:26px;margin-bottom:14px;display:block}
+.dif-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:600;margin-bottom:8px;line-height:1.3}
+.dif-desc{font-size:12px;color:var(--g1);line-height:1.65}
+
+/* SERVIÇOS */
+#servicos{background:var(--s1);position:relative}
+.sv-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--b1);border:1px solid var(--b1)}
+.sv{background:var(--card);padding:42px 30px;transition:all .4s;position:relative;overflow:hidden}
+.sv.s3{grid-column:span 2}.sv.s2{grid-column:span 3}
+.sv::after{content:'';position:absolute;left:0;bottom:0;right:0;height:2px;background:linear-gradient(90deg,var(--gd),var(--gold));transform:scaleX(0);transition:transform .4s}
+.sv:hover{background:var(--card2);transform:translateY(-3px)}.sv:hover::after{transform:scaleX(1)}
+.sv-num{font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:var(--b2);line-height:1;margin-bottom:16px;transition:color .4s}
+.sv:hover .sv-num{color:rgba(201,168,76,.45)}
+.sv-title{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:600;margin-bottom:10px}
+.sv-desc{font-size:13px;color:var(--g1);line-height:1.7;margin-bottom:16px}
+.sv-tags{display:flex;flex-wrap:wrap;gap:6px}
+.sv-tags li{font-size:11px;color:var(--g1);border:1px solid var(--b1);padding:3px 9px;transition:all .3s}
+.sv:hover .sv-tags li{border-color:rgba(201,168,76,.25);color:var(--g2)}
+
+/* PROCESSO */
+#processo{background:var(--bg)}
+.proc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
+.proc-grid::before{content:'';position:absolute;top:20px;left:calc(12.5%);right:calc(12.5%);height:1px;background:linear-gradient(90deg,var(--gold),rgba(201,168,76,.2),var(--gold));pointer-events:none}
+.proc-item{padding:0 24px 0 0}
+.proc-num{width:40px;height:40px;border:1px solid var(--b2);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--gold);letter-spacing:1px;background:var(--bg);position:relative;z-index:1;margin-bottom:26px}
+.proc-title{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:600;margin-bottom:10px}
+.proc-desc{font-size:13px;color:var(--g1);line-height:1.7}
+
+/* PORTFÓLIO */
+#portfolio{background:var(--s1);position:relative}
+.pf-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:44px}
+.pf-item{aspect-ratio:4/3;position:relative;overflow:hidden;cursor:pointer}
+.pf-item:first-child{grid-column:span 2;aspect-ratio:8/3}
+.pf-bg{position:absolute;inset:0;transition:transform .6s var(--ease)}
+.pf-item:hover .pf-bg{transform:scale(1.04)}
+.p1{background:linear-gradient(135deg,#1c1100,#070707)}
+.p2{background:linear-gradient(135deg,#0a0a1c,#070707)}
+.p3{background:linear-gradient(135deg,#0d1c0a,#070707)}
+.p4{background:linear-gradient(135deg,#1c0a0a,#070707)}
+.pf-ico{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:52px;opacity:.07}
+.pf-ov{position:absolute;inset:0;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .4s}
+.pf-item:hover .pf-ov{opacity:1}
+.pf-ov a{font-size:11.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);padding:10px 22px;transition:all .3s}
+.pf-ov a:hover{background:var(--gold);color:#000}
+.pf-lbl{position:absolute;bottom:14px;left:14px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);background:rgba(7,7,7,.8);padding:4px 10px}
+
+/* FAQ */
+#faq{background:var(--bg)}
+.faq-list{border:1px solid var(--b1);overflow:hidden}
+.faq-item{border-bottom:1px solid var(--b1)}
+.faq-item:last-child{border-bottom:none}
+.faq-q{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:24px 28px;cursor:pointer;transition:background .3s;user-select:none}
+.faq-q:hover{background:var(--card)}
+.faq-q-txt{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:600;color:var(--w)}
+.faq-ico{color:var(--gold);font-size:22px;flex-shrink:0;transition:transform .35s var(--ease);line-height:1}
+.faq-item.open .faq-ico{transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .45s var(--ease)}
+.faq-a-in{padding:0 28px 24px;color:var(--g2);line-height:1.85;font-size:.975rem;border-left:2px solid var(--b2);margin:0 28px 0 28px;padding-left:20px}
+.faq-item.open .faq-a{max-height:160px}
+
+/* FORM */
+#orcamento{background:var(--s1);position:relative}
+.fm-card{background:var(--card);border:1px solid var(--b1);padding:56px;position:relative}
+.fm-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.fm-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.ff{display:flex;flex-direction:column;gap:7px}
+.ff.sp2{grid-column:span 2}
+.flb{font-size:11px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--g2)}
+.fin{background:var(--s2);border:1px solid rgba(255,255,255,.08);color:var(--w);padding:13px 16px;font-family:'Inter',sans-serif;font-size:13.5px;transition:all .3s;outline:none;width:100%}
+.fin:focus{border-color:var(--gold);background:rgba(201,168,76,.025)}
+textarea.fin{resize:vertical;min-height:110px}
+.cg{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
+.ck{display:flex;align-items:center;gap:7px;cursor:pointer;font-size:13px;color:var(--g2);transition:color .3s}
+.ck:hover{color:var(--w)}
+.ck input{accent-color:var(--gold);width:14px;height:14px;cursor:pointer;flex-shrink:0}
+.fdiv{height:1px;background:var(--b1);grid-column:span 2;margin:6px 0}
+.fsec-t{font-size:10.5px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);grid-column:span 2;padding-top:4px}
+.fsend{grid-column:span 2;display:flex;gap:16px;align-items:center;margin-top:10px;flex-wrap:wrap}
+.fnote{font-size:12px;color:var(--g1)}
+
+/* CONTATO */
+#contato{background:var(--bg)}
+.ct-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.ct-item{display:flex;gap:18px;padding-bottom:26px;margin-bottom:26px;border-bottom:1px solid var(--b1);align-items:flex-start}
+.ct-item:last-of-type{border:none;margin:0;padding:0}
+.ct-ico{width:40px;height:40px;border:1px solid var(--b2);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.ct-lb{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.ct-val{font-size:15px;transition:color .3s}.ct-val:hover{color:var(--gold)}
+.cta-box{background:var(--card);border:1px solid var(--b1);padding:50px 44px;position:relative;overflow:hidden}
+.cta-box::before{content:'KSICFILM';position:absolute;bottom:-16px;right:-6px;font-family:'Playfair Display',serif;font-size:76px;font-weight:700;color:rgba(255,255,255,.016);letter-spacing:-2px;pointer-events:none;line-height:1}
+.cta-title{font-family:'Playfair Display',serif;font-size:1.85rem;line-height:1.2;margin-bottom:14px}
+.cta-p{color:var(--g2);margin-bottom:28px;line-height:1.75;font-size:.975rem}
+.cta-btns{display:flex;flex-direction:column;gap:12px}
+
+/* FOOTER */
+footer{background:#030303;padding:34px 0;border-top:1px solid var(--b1)}
+.ft{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.ft-logo{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;letter-spacing:3.5px}
+.ft-logo b{color:var(--gold)}
+.ft-copy{font-size:11.5px;color:var(--g1);text-align:center;line-height:1.65}
+.ft-links{display:flex;gap:22px}
+.ft-links a{font-size:11.5px;color:var(--g1);letter-spacing:.5px;transition:color .3s}
+.ft-links a:hover{color:var(--gold)}
+
+/* WA FLOAT */
+.wa-btn{position:fixed;bottom:28px;right:28px;width:52px;height:52px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 22px rgba(37,211,102,.38);z-index:999;transition:all .3s}
+.wa-btn:hover{transform:scale(1.1);box-shadow:0 8px 32px rgba(37,211,102,.48)}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  .nlinks,.nav-cta .btn{display:none}
+  .hbg{display:flex}
+  .hring,.hbg-word{display:none}
+  .ab-grid{grid-template-columns:1fr;gap:48px}
+  .ab-art{aspect-ratio:3/2;max-width:420px}
+  .dif-grid{grid-template-columns:repeat(2,1fr)}
+  .dif-item:last-child{grid-column:span 2}
+  .sv-grid{grid-template-columns:1fr 1fr}
+  .sv.s3,.sv.s2{grid-column:span 1}
+  .proc-grid{grid-template-columns:1fr 1fr;gap:40px}
+  .proc-grid::before{display:none}
+  .proc-item{padding:0}
+  .proc-num{background:var(--bg)}
+  .pf-grid{grid-template-columns:1fr}
+  .pf-item:first-child{grid-column:span 1;aspect-ratio:4/3}
+  .faq-q{padding:20px 20px}
+  .faq-a-in{margin:0 20px;padding-left:16px}
+  .faq-item.open .faq-a{max-height:220px}
+  .fm-card{padding:32px 22px}
+  .fm-grid{grid-template-columns:1fr}
+  .ff.sp2,.fdiv,.fsec-t,.fsend{grid-column:span 1}
+  .ct-grid{grid-template-columns:1fr;gap:48px}
+  .ft{flex-direction:column;text-align:center}
+  section{padding:80px 0}
+}
+@media(max-width:580px){
+  .sv-grid{grid-template-columns:1fr}
+  .sv.s3,.sv.s2{grid-column:span 1}
+  .dif-item:last-child{grid-column:span 1}
+  .proc-grid{grid-template-columns:1fr}
+  .hbtns,.cta-btns{flex-direction:column}
+  .btn{justify-content:center}
+  .hero-pills{gap:8px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="wrap">
+    <div class="ni">
+      <a href="#hero" class="nlogo">KSIC<b>FILM</b></a>
+      <ul class="nlinks">
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#servicos">Serviços</a></li>
+        <li><a href="#portfolio">Portfólio</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+      <div class="nav-cta" style="display:flex;align-items:center;gap:14px">
+        <a href="#orcamento" class="btn btn-g">Solicitar Orçamento</a>
+        <button class="hbg" id="hbg"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mob" id="mob">
+  <button class="mob-x" id="mob-x">✕</button>
+  <a href="#sobre" class="ml">Sobre</a>
+  <a href="#servicos" class="ml">Serviços</a>
+  <a href="#portfolio" class="ml">Portfólio</a>
+  <a href="#faq" class="ml">FAQ</a>
+  <a href="#orcamento" class="ml">Orçamento</a>
+  <a href="#contato" class="ml">Contato</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hbg-el"></div>
+  <div class="hbg-word">KSICFILM</div>
+  <div class="hring"></div>
+  <div class="hdot d1"></div><div class="hdot d2"></div><div class="hdot d3"></div>
+  <div class="wrap">
+    <div class="hero-c">
+      <div class="hero-pills">
+        <span class="pill">Filmmaker</span>
+        <span class="pill">Conteúdo Digital</span>
+        <span class="pill">Inteligência Artificial</span>
+      </div>
+      <h1 class="h1">
+        Imagens que<br>
+        <i>comunicam.</i><br>
+        Conteúdo que converte.
+      </h1>
+      <p class="h-sub">
+        Produção audiovisual, criação de conteúdo e soluções digitais com IA para marcas que querem se destacar com consistência e impacto visual.
+      </p>
+      <div class="hbtns">
+        <a href="#orcamento" class="btn btn-g">Solicitar Orçamento</a>
+        <a href="https://samanthakpatoukpa.myportfolio.com" target="_blank" class="btn btn-o">Ver Portfólio ↗</a>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-bar"></div>
+    <span>scroll</span>
+  </div>
+</section>
+
+<!-- SOBRE -->
+<section id="sobre">
+  <div class="tline"></div>
+  <div class="wrap">
+    <div class="ab-grid">
+      <div class="ab-visual rv">
+        <div class="ab-art">
+          <div class="ab-corner tl"></div>
+          <div class="ab-corner tr"></div>
+          <div class="ab-corner bl"></div>
+          <div class="ab-corner br"></div>
+          <div class="ab-rings">
+            <div class="ab-ring r1"></div>
+            <div class="ab-ring r2"></div>
+            <div class="ab-ring r3"></div>
+            <div class="ab-ring-dot"></div>
+          </div>
+          <div class="ab-art-label"><span>Produção Audiovisual</span></div>
+          <div class="ab-art-year">2024</div>
+        </div>
+      </div>
+      <div class="rv d1">
+        <div class="tag" style="margin-bottom:14px">Sobre a KSICFILM</div>
+        <h2 class="htitle">Uma produtora criativa,<br>focada em resultado</h2>
+        <div class="gl"></div>
+        <p class="ab-p">A KSICFILM é uma produtora audiovisual especializada em conteúdo visual de impacto. Combinamos direção cinematográfica, estratégia de conteúdo e tecnologia para criar produções que comunicam com clareza e geram resultado real.</p>
+        <p class="ab-p">Com formação em Cinema e Audiovisual e sensibilidade multicultural — unindo referências brasileiras e francesas —, desenvolvemos projetos com identidade estética própria e olhar criativo apurado.</p>
+        <div class="ab-quote">Para projetos de maior escala, mobilizamos equipes especializadas através de uma rede de parceiros e freelancers de confiança.</div>
+        <div class="sk-grid">
+          <div class="sk">Formação em Cinema e Audiovisual</div>
+          <div class="sk">Conteúdo Digital Estratégico</div>
+          <div class="sk">Soluções com Inteligência Artificial</div>
+          <div class="sk">Atendimento em PT e FR</div>
+        </div>
+        <a href="https://samanthakpatoukpa.myportfolio.com" target="_blank" class="btn btn-g">Ver Portfólio ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIFERENCIAIS -->
+<section id="diferenciais">
+  <div class="wrap">
+    <div class="sec-hd ctr rv">
+      <div class="tag">Por que a KSICFILM</div>
+      <h2 class="htitle" style="margin-top:14px">Nossos Diferenciais</h2>
+      <div class="gl"></div>
+    </div>
+    <div class="dif-grid rv">
+      <div class="dif-item">
+        <div class="dif-n">01</div>
+        <span class="dif-ico">🎓</span>
+        <div class="dif-title">Formação em Cinema e Audiovisual</div>
+        <div class="dif-desc">Base técnica e estética profissional aplicada a cada projeto.</div>
+      </div>
+      <div class="dif-item">
+        <div class="dif-n">02</div>
+        <span class="dif-ico">🎬</span>
+        <div class="dif-title">Produção Audiovisual e Conteúdo Digital</div>
+        <div class="dif-desc">Da filmagem à entrega, com direção criativa em cada etapa.</div>
+      </div>
+      <div class="dif-item">
+        <div class="dif-n">03</div>
+        <span class="dif-ico">🌍</span>
+        <div class="dif-title">Atendimento em Português e Francês</div>
+        <div class="dif-desc">Atendimento bilíngue para projetos locais e internacionais.</div>
+      </div>
+      <div class="dif-item">
+        <div class="dif-n">04</div>
+        <span class="dif-ico">🤖</span>
+        <div class="dif-title">Soluções com Inteligência Artificial</div>
+        <div class="dif-desc">IA aplicada à criação visual, automação e otimização de produção.</div>
+      </div>
+      <div class="dif-item">
+        <div class="dif-n">05</div>
+        <span class="dif-ico">🤝</span>
+        <div class="dif-title">Equipes sob Demanda</div>
+        <div class="dif-desc">Rede de parceiros e freelancers para projetos de maior escala.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVIÇOS -->
+<section id="servicos">
+  <div class="tline"></div>
+  <div class="wrap">
+    <div class="sec-hd ctr rv">
+      <div class="tag">O Que Fazemos</div>
+      <h2 class="htitle" style="margin-top:14px">Nossos Serviços</h2>
+      <div class="gl"></div>
+      <p class="hsub">Soluções visuais completas — da filmagem ao conteúdo digital — com qualidade cinematográfica e foco em resultado.</p>
+    </div>
+    <div class="sv-grid rv">
+      <div class="sv s3">
+        <div class="sv-num">01</div>
+        <div class="sv-title">Filmagem Profissional</div>
+        <div class="sv-desc">Captação com direção de cena e qualidade cinematográfica para produções que transmitem credibilidade e impacto.</div>
+        <ul class="sv-tags"><li>Filmagem</li><li>Direção de cena</li><li>Cobertura de eventos</li><li>Produção audiovisual</li></ul>
+      </div>
+      <div class="sv s3">
+        <div class="sv-num">02</div>
+        <div class="sv-title">Edição para Reels e Shorts</div>
+        <div class="sv-desc">Edição dinâmica e estratégica para plataformas de vídeo curto, com ritmo visual, legendas e motion de alto impacto.</div>
+        <ul class="sv-tags"><li>Reels</li><li>TikTok</li><li>Shorts</li><li>Legendas</li><li>Motion básico</li></ul>
+      </div>
+      <div class="sv s3">
+        <div class="sv-num">03</div>
+        <div class="sv-title">Criação de Conteúdo</div>
+        <div class="sv-desc">Estratégia e planejamento editorial para marcas que precisam de presença digital consistente e com identidade clara.</div>
+        <ul class="sv-tags"><li>Planejamento</li><li>Calendário editorial</li><li>Direção criativa</li><li>Posicionamento digital</li></ul>
+      </div>
+      <div class="sv s2">
+        <div class="sv-num">04</div>
+        <div class="sv-title">Conteúdo com Inteligência Artificial</div>
+        <div class="sv-desc">Produção de imagens, vídeos e conteúdos visuais utilizando IA como ferramenta criativa para ampliar possibilidades com eficiência e qualidade.</div>
+        <ul class="sv-tags"><li>Imagens com IA</li><li>Vídeos com IA</li><li>Automação criativa</li><li>Otimização de produção</li></ul>
+      </div>
+      <div class="sv s2">
+        <div class="sv-num">05</div>
+        <div class="sv-title">Landing Pages e Sites com IA</div>
+        <div class="sv-desc">Criação de páginas e sites institucionais com suporte de IA, focados em conversão, estética e performance digital.</div>
+        <ul class="sv-tags"><li>Landing Pages</li><li>Sites institucionais</li><li>Portfólios</li><li>Páginas de captura</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESSO -->
+<section id="processo">
+  <div class="wrap">
+    <div class="sec-hd ctr rv">
+      <div class="tag">Como Trabalhamos</div>
+      <h2 class="htitle" style="margin-top:14px">Do Briefing à Entrega</h2>
+      <div class="gl"></div>
+      <p class="hsub">Um processo claro e colaborativo para que cada projeto reflita com precisão a sua visão e objetivos.</p>
+    </div>
+    <div class="proc-grid rv">
+      <div class="proc-item">
+        <div class="proc-num">01</div>
+        <div class="proc-title">Briefing & Conceito</div>
+        <div class="proc-desc">Entendemos sua marca, objetivo e público. Aqui nasce o conceito criativo que guia todo o projeto.</div>
+      </div>
+      <div class="proc-item rv d1">
+        <div class="proc-num">02</div>
+        <div class="proc-title">Planejamento</div>
+        <div class="proc-desc">Definimos formato, plataforma, mensagem e roteiro. Nada é deixado ao acaso antes da câmera ligar.</div>
+      </div>
+      <div class="proc-item rv d2">
+        <div class="proc-num">03</div>
+        <div class="proc-title">Produção</div>
+        <div class="proc-desc">Execução com direção audiovisual, equipamento profissional e atenção a cada detalhe visual.</div>
+      </div>
+      <div class="proc-item rv d3">
+        <div class="proc-num">04</div>
+        <div class="proc-title">Entrega</div>
+        <div class="proc-desc">Pós-produção completa com revisão, ajustes e arquivos otimizados para cada plataforma.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFÓLIO -->
+<section id="portfolio">
+  <div class="tline"></div>
+  <div class="wrap">
+    <div class="sec-hd ctr rv">
+      <div class="tag">Portfólio</div>
+      <h2 class="htitle" style="margin-top:14px">Trabalhos Selecionados</h2>
+      <div class="gl"></div>
+      <p class="hsub">Uma amostra do que criamos. Para ver todos os projetos, acesse o portfólio completo.</p>
+    </div>
+    <div class="pf-grid rv">
+      <div class="pf-item">
+        <div class="pf-bg p1"></div>
+        <div class="pf-ico">🎬</div>
+        <div class="pf-ov"><a href="https://samanthakpatoukpa.myportfolio.com" target="_blank">Ver Projeto ↗</a></div>
+        <div class="pf-lbl">Produção Audiovisual</div>
+      </div>
+      <div class="pf-item">
+        <div class="pf-bg p2"></div>
+        <div class="pf-ico">📷</div>
+        <div class="pf-ov"><a href="https://samanthakpatoukpa.myportfolio.com" target="_blank">Ver Projeto ↗</a></div>
+        <div class="pf-lbl">Conteúdo Digital</div>
+      </div>
+      <div class="pf-item">
+        <div class="pf-bg p3"></div>
+        <div class="pf-ico">📱</div>
+        <div class="pf-ov"><a href="https://samanthakpatoukpa.myportfolio.com" target="_blank">Ver Projeto ↗</a></div>
+        <div class="pf-lbl">Reels & Edição</div>
+      </div>
+      <div class="pf-item">
+        <div class="pf-bg p4"></div>
+        <div class="pf-ico">🤖</div>
+        <div class="pf-ov"><a href="https://samanthakpatoukpa.myportfolio.com" target="_blank">Ver Projeto ↗</a></div>
+        <div class="pf-lbl">Conteúdo com IA</div>
+      </div>
+    </div>
+    <div style="text-align:center" class="rv">
+      <a href="https://samanthakpatoukpa.myportfolio.com" target="_blank" class="btn btn-g">Ver Portfólio Completo ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-hd ctr rv">
+      <div class="tag">Dúvidas Frequentes</div>
+      <h2 class="htitle" style="margin-top:14px">FAQ</h2>
+      <div class="gl"></div>
+      <p class="hsub">Respondemos às perguntas mais comuns sobre como trabalhamos e o que oferecemos.</p>
+    </div>
+    <div class="faq-list rv">
+      <div class="faq-item">
+        <div class="faq-q"><span class="faq-q-txt">Vocês atendem em qualquer lugar?</span><span class="faq-ico">+</span></div>
+        <div class="faq-a"><div class="faq-a-in">A KSICFILM pode atuar em diferentes cidades e estados. A viabilidade depende do tipo de projeto, cronograma e orçamento disponível. Também realizamos projetos de forma remota quando a demanda é de edição, conteúdo digital ou soluções com IA.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="faq-q-txt">Trabalham apenas com edição?</span><span class="faq-ico">+</span></div>
+        <div class="faq-a"><div class="faq-a-in">Não. A KSICFILM oferece serviços de filmagem, edição, criação de conteúdo, produção audiovisual e projetos digitais com IA. Também trabalhamos com materiais enviados pelo cliente quando a necessidade é exclusivamente de pós-produção.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="faq-q-txt">Posso contratar apenas a edição do meu vídeo?</span><span class="faq-ico">+</span></div>
+        <div class="faq-a"><div class="faq-a-in">Sim. Recebemos vídeos gravados pelo cliente e realizamos toda a pós-produção para Reels, Shorts e outros formatos digitais — com legendas, motion, colorização e ajustes finais.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="faq-q-txt">Quanto custa um vídeo?</span><span class="faq-ico">+</span></div>
+        <div class="faq-a"><div class="faq-a-in">Cada projeto tem necessidades específicas. O orçamento é definido de acordo com o objetivo, complexidade, prazo e formato solicitado. Entre em contato e montamos uma proposta personalizada para o seu caso.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="faq-q-txt">Quantas revisões estão incluídas?</span><span class="faq-ico">+</span></div>
+        <div class="faq-a"><div class="faq-a-in">Cada projeto inclui uma rodada de ajustes. Alterações adicionais podem ser cobradas conforme o volume e a complexidade das mudanças solicitadas. Isso garante um processo ágil e com escopo bem definido para as duas partes.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ORÇAMENTO -->
+<section id="orcamento">
+  <div class="tline"></div>
+  <div class="wrap">
+    <div class="sec-hd ctr rv">
+      <div class="tag">Orçamento</div>
+      <h2 class="htitle" style="margin-top:14px">Vamos criar algo <i style="color:var(--gold)">extraordinário?</i></h2>
+      <div class="gl"></div>
+      <p class="hsub">Preencha com os detalhes do seu projeto e entraremos em contato com uma proposta personalizada.</p>
+    </div>
+    <div class="fm-card rv">
+      <div class="fm-grid">
+        <div class="fsec-t">Seus Dados</div>
+        <div class="ff"><label class="flb">Nome completo *</label><input class="fin" type="text" id="f-nome" placeholder="Seu nome"></div>
+        <div class="ff"><label class="flb">Empresa / Marca</label><input class="fin" type="text" id="f-emp" placeholder="Nome da marca ou empresa"></div>
+        <div class="ff"><label class="flb">WhatsApp *</label><input class="fin" type="tel" id="f-wpp" placeholder="(xx) xxxxx-xxxx"></div>
+        <div class="ff"><label class="flb">E-mail</label><input class="fin" type="email" id="f-mail" placeholder="seu@email.com"></div>
+        <div class="ff"><label class="flb">Cidade</label><input class="fin" type="text" id="f-cid" placeholder="Sua cidade"></div>
+        <div class="ff"><label class="flb">Instagram</label><input class="fin" type="text" id="f-ig" placeholder="@suamarca"></div>
+        <div class="ff sp2"><label class="flb">Site</label><input class="fin" type="url" id="f-site" placeholder="www.seusite.com.br"></div>
+        <div class="fdiv"></div>
+        <div class="fsec-t">Sobre o Projeto</div>
+        <div class="ff sp2">
+          <label class="flb">Qual serviço você precisa?</label>
+          <div class="cg">
+            <label class="ck"><input type="checkbox" class="fsv" value="Filmagem Profissional"> Filmagem Profissional</label>
+            <label class="ck"><input type="checkbox" class="fsv" value="Edição para Reels e Shorts"> Edição para Reels e Shorts</label>
+            <label class="ck"><input type="checkbox" class="fsv" value="Criação de Conteúdo"> Criação de Conteúdo</label>
+            <label class="ck"><input type="checkbox" class="fsv" value="Conteúdo com IA"> Conteúdo com IA</label>
+            <label class="ck"><input type="checkbox" class="fsv" value="Landing Page ou Site"> Landing Page ou Site</label>
+            <label class="ck"><input type="checkbox" class="fsv" value="Produção Audiovisual Completa"> Produção Audiovisual Completa</label>
+          </div>
+        </div>
+        <div class="ff sp2">
+          <label class="flb">Qual o objetivo principal?</label>
+          <div class="cg">
+            <label class="ck"><input type="checkbox" class="fob" value="Vender mais"> Vender mais</label>
+            <label class="ck"><input type="checkbox" class="fob" value="Captar clientes"> Captar clientes</label>
+            <label class="ck"><input type="checkbox" class="fob" value="Fortalecer a marca"> Fortalecer a marca</label>
+            <label class="ck"><input type="checkbox" class="fob" value="Lançar produto ou serviço"> Lançar produto ou serviço</label>
+            <label class="ck"><input type="checkbox" class="fob" value="Cobrir evento"> Cobrir evento</label>
+          </div>
+        </div>
+        <div class="ff sp2">
+          <label class="flb">Para qual plataforma / formato?</label>
+          <div class="cg">
+            <label class="ck"><input type="checkbox" class="fpl" value="Instagram Reels"> Instagram Reels</label>
+            <label class="ck"><input type="checkbox" class="fpl" value="TikTok"> TikTok</label>
+            <label class="ck"><input type="checkbox" class="fpl" value="YouTube Shorts"> YouTube Shorts</label>
+            <label class="ck"><input type="checkbox" class="fpl" value="YouTube"> YouTube</label>
+            <label class="ck"><input type="checkbox" class="fpl" value="Anúncios pagos"> Anúncios pagos</label>
+            <label class="ck"><input type="checkbox" class="fpl" value="Web (site ou LP)"> Web — Site ou LP</label>
+            <label class="ck"><input type="checkbox" class="fpl" value="Institucional ou evento"> Institucional ou Evento</label>
+          </div>
+        </div>
+        <div class="ff">
+          <label class="flb">Você possui material bruto?</label>
+          <div class="cg">
+            <label class="ck"><input type="radio" name="mat" value="Sim, tenho material"> Sim, tenho</label>
+            <label class="ck"><input type="radio" name="mat" value="Tenho parte do material"> Tenho parte</label>
+            <label class="ck"><input type="radio" name="mat" value="Não tenho material"> Não tenho</label>
+          </div>
+        </div>
+        <div class="ff">
+          <label class="flb">Precisará de captação / gravação?</label>
+          <div class="cg">
+            <label class="ck"><input type="radio" name="cap" value="Sim"> Sim</label>
+            <label class="ck"><input type="radio" name="cap" value="Não"> Não</label>
+            <label class="ck"><input type="radio" name="cap" value="Não sei ainda"> Não sei ainda</label>
+          </div>
+        </div>
+        <div class="ff">
+          <label class="flb">Precisará de roteiro?</label>
+          <div class="cg">
+            <label class="ck"><input type="radio" name="rot" value="Sim"> Sim</label>
+            <label class="ck"><input type="radio" name="rot" value="Não"> Não</label>
+            <label class="ck"><input type="radio" name="rot" value="Tenho ideia mas preciso de ajuda"> Tenho uma ideia</label>
+          </div>
+        </div>
+        <div class="ff">
+          <label class="flb">Prazo estimado?</label>
+          <div class="cg">
+            <label class="ck"><input type="radio" name="pz" value="Urgente"> Urgente</label>
+            <label class="ck"><input type="radio" name="pz" value="7 a 15 dias"> 7–15 dias</label>
+            <label class="ck"><input type="radio" name="pz" value="15 a 30 dias"> 15–30 dias</label>
+            <label class="ck"><input type="radio" name="pz" value="Sem pressa"> Sem pressa</label>
+          </div>
+        </div>
+        <div class="ff sp2">
+          <label class="flb">Conte mais sobre o seu projeto</label>
+          <textarea class="fin" id="f-desc" placeholder="Descreva sua marca, o que imagina para o projeto, referências que admira e qualquer detalhe que ajude a entender melhor o que você precisa..."></textarea>
+        </div>
+        <div class="fsend">
+          <button class="btn btn-g" onclick="enviar()" style="font-size:14px;padding:15px 40px">✦ Enviar pelo WhatsApp</button>
+          <span class="fnote">Respondemos em até 24h 💛</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTATO -->
+<section id="contato">
+  <div class="wrap">
+    <div class="ct-grid">
+      <div class="rv">
+        <div class="tag" style="margin-bottom:14px">Contato</div>
+        <h2 class="htitle">Fale com<br>a gente</h2>
+        <div class="gl"></div>
+        <p style="color:var(--g2);margin-bottom:40px;line-height:1.85;font-size:.975rem">Pronta para transformar a sua ideia em uma experiência visual que o seu público não vai esquecer.</p>
+        <div class="ct-item">
+          <div class="ct-ico">📱</div>
+          <div><div class="ct-lb">WhatsApp</div><a href="https://wa.me/5562985978785" target="_blank" class="ct-val">+55 (62) 98597-8785</a></div>
+        </div>
+        <div class="ct-item">
+          <div class="ct-ico">✉️</div>
+          <div><div class="ct-lb">E-mail</div><a href="mailto:ksicfilmes@gmail.com" class="ct-val">ksicfilmes@gmail.com</a></div>
+        </div>
+        <div class="ct-item">
+          <div class="ct-ico">🎬</div>
+          <div><div class="ct-lb">Portfólio</div><a href="https://samanthakpatoukpa.myportfolio.com" target="_blank" class="ct-val">samanthakpatoukpa.myportfolio.com</a></div>
+        </div>
+      </div>
+      <div class="cta-box rv d1">
+        <div class="tag" style="margin-bottom:14px">Comece Agora</div>
+        <div class="cta-title">Sua história merece<br>ser contada <i style="color:var(--gold)">bem.</i></div>
+        <p class="cta-p">De um Reel a uma produção audiovisual completa, trabalhamos para criar algo que realmente representa a sua marca.</p>
+        <div class="cta-btns">
+          <a href="#orcamento" class="btn btn-g btn-full">Solicitar Orçamento</a>
+          <a href="https://wa.me/5562985978785" target="_blank" class="btn btn-o btn-full">💬 Chamar no WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="ft">
+      <div class="ft-logo">KSIC<b>FILM</b></div>
+      <div class="ft-copy">
+        © 2024 KSICFILM. Todos os direitos reservados.<br>
+        <span style="color:var(--gd);font-size:10.5px">Produção Audiovisual & Conteúdo Digital</span>
+      </div>
+      <div class="ft-links">
+        <a href="#sobre">Sobre</a>
+        <a href="#servicos">Serviços</a>
+        <a href="#portfolio">Portfólio</a>
+        <a href="#faq">FAQ</a>
+        <a href="#orcamento">Orçamento</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/5562985978785" target="_blank" class="wa-btn" title="WhatsApp">
+  <svg width="25" height="25" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+// Navbar
+const navEl=document.getElementById('nav');
+window.addEventListener('scroll',()=>navEl.classList.toggle('sc',scrollY>60));
+
+// Mobile menu
+const hbgBtn=document.getElementById('hbg'),mobMenu=document.getElementById('mob'),mobX=document.getElementById('mob-x');
+hbgBtn.addEventListener('click',()=>mobMenu.classList.add('on'));
+mobX.addEventListener('click',()=>mobMenu.classList.remove('on'));
+document.querySelectorAll('.ml').forEach(a=>a.addEventListener('click',()=>mobMenu.classList.remove('on')));
+
+// Reveal
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('in'),i*90)});
+},{threshold:.1});
+document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+
+// FAQ accordion
+document.querySelectorAll('.faq-q').forEach(q=>{
+  q.addEventListener('click',()=>{
+    const item=q.parentElement;
+    const wasOpen=item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));
+    if(!wasOpen)item.classList.add('open');
+  });
+});
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'})}
+  });
+});
+
+// Form → WhatsApp
+function enviar(){
+  const nome=document.getElementById('f-nome').value.trim();
+  const wpp=document.getElementById('f-wpp').value.trim();
+  if(!nome||!wpp){alert('Por favor, preencha seu nome e WhatsApp para continuar. 💛');return}
+  const emp=document.getElementById('f-emp').value||'—';
+  const mail=document.getElementById('f-mail').value||'—';
+  const cid=document.getElementById('f-cid').value||'—';
+  const ig=document.getElementById('f-ig').value||'—';
+  const site=document.getElementById('f-site').value||'—';
+  const desc=document.getElementById('f-desc').value||'—';
+  const sv=[...document.querySelectorAll('.fsv:checked')].map(e=>e.value).join(', ')||'—';
+  const ob=[...document.querySelectorAll('.fob:checked')].map(e=>e.value).join(', ')||'—';
+  const pl=[...document.querySelectorAll('.fpl:checked')].map(e=>e.value).join(', ')||'—';
+  const mat=document.querySelector('input[name=mat]:checked')?.value||'—';
+  const cap=document.querySelector('input[name=cap]:checked')?.value||'—';
+  const rot=document.querySelector('input[name=rot]:checked')?.value||'—';
+  const pz=document.querySelector('input[name=pz]:checked')?.value||'—';
+  const msg=`✦ *SOLICITAÇÃO DE ORÇAMENTO — KSICFILM*
+
+👤 *Dados do Cliente*
+• Nome: ${nome}
+• Empresa / Marca: ${emp}
+• WhatsApp: ${wpp}
+• E-mail: ${mail}
+• Cidade: ${cid}
+• Instagram: ${ig}
+• Site: ${site}
+
+🎬 *Sobre o Projeto*
+• Serviço desejado: ${sv}
+• Objetivo: ${ob}
+• Plataforma / Formato: ${pl}
+• Possui material bruto: ${mat}
+• Precisará de captação: ${cap}
+• Precisará de roteiro: ${rot}
+• Prazo estimado: ${pz}
+
+📝 *Descrição*
+${desc}`;
+  window.open('https://wa.me/5562985978785?text='+encodeURIComponent(msg),'_blank');
+}
+</script>
+</body>
+</html>
